@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="S.Studio2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../S.Studio2.Engine/out/production/S.Studio2.Engine" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
