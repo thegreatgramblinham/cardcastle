@@ -4,6 +4,8 @@ import card.CardBase;
 import gameObjects.RenderedGameObject;
 import javafx.scene.image.Image;
 
+import java.awt.*;
+
 public abstract class CardGrid extends RenderedGameObject
 {
     //Variables
@@ -14,7 +16,7 @@ public abstract class CardGrid extends RenderedGameObject
     //Constructor
     public CardGrid(Image sprite, int width, int height)
     {
-        super(sprite);
+        super(new Rectangle((int)sprite.getWidth(), (int)sprite.getHeight()), sprite);
         _width = width;
         _height = height;
         _grid = new CardBase[_width][_height];
