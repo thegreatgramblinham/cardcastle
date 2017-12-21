@@ -74,20 +74,20 @@ public class GameConstants
         return new Tuple<>(false, null);
     }
 
-    public static void SetMousePressed(MouseButton button, MouseEvent e)
+    public static void SetMousePressed(MouseEvent e)
     {
-        if(mousePressed.containsKey(button))
-            mousePressed.remove(button);
+        if(mousePressed.containsKey(e.getButton()))
+            mousePressed.remove(e.getButton());
 
-        mousePressed.put(button, new Tuple<>(true, e));
+        mousePressed.put(e.getButton(), new Tuple<>(true, e));
     }
 
-    public static void SetMouseReleased(MouseButton button, MouseEvent e)
+    public static void SetMouseReleased(MouseEvent e)
     {
-        if(mousePressed.containsKey(button))
-            mousePressed.remove(button);
+        if(mousePressed.containsKey(e.getButton()))
+            mousePressed.remove(e.getButton());
 
-        mousePressed.put(button, new Tuple<>(false, e));
+        mousePressed.put(e.getButton(), new Tuple<>(false, e));
     }
 
     //Private Methods
