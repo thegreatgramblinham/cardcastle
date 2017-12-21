@@ -35,8 +35,9 @@ public class GameConstants
     public static final float GRAVITY = 0.5F;
 
     //Private Static Fields
-    private static HashMap<KeyCode, Boolean> keyPressed = new HashMap<>();
-    private static HashMap<MouseButton, Tuple<Boolean, MouseEvent>> mousePressed = new HashMap<>();
+    private static HashMap<KeyCode, Boolean> _keyPressed = new HashMap<>();
+    private static HashMap<MouseButton, Tuple<Boolean, MouseEvent>> _mousePressed = new HashMap<>();
+    private static MouseEvent _mousePosition = null;
 
     //Private Constructor
     private GameConstants(){}
@@ -44,50 +45,60 @@ public class GameConstants
     //Public Static Methods
     public static boolean IsKeyPressed(KeyCode key)
     {
-        if(keyPressed.containsKey(key))
-            return keyPressed.get(key);
+        if(_keyPressed.containsKey(key))
+            return _keyPressed.get(key);
 
         return false;
     }
 
     public static void SetKeyPressed(KeyCode key)
     {
-        if(keyPressed.containsKey(key))
-            keyPressed.remove(key);
+        if(_keyPressed.containsKey(key))
+            _keyPressed.remove(key);
 
-        keyPressed.put(key, true);
+        _keyPressed.put(key, true);
     }
 
     public static void SetKeyReleased(KeyCode key)
     {
-        if(keyPressed.containsKey(key))
-            keyPressed.remove(key);
+        if(_keyPressed.containsKey(key))
+            _keyPressed.remove(key);
 
-        keyPressed.put(key, false);
+        _keyPressed.put(key, false);
     }
 
     public static Tuple<Boolean, MouseEvent> IsMousePressed(MouseButton button)
     {
-        if(mousePressed.containsKey(button))
-            return mousePressed.get(button);
+        if(_mousePressed.containsKey(button))
+            return _mousePressed.get(button);
 
         return new Tuple<>(false, null);
     }
 
     public static void SetMousePressed(MouseEvent e)
     {
-        if(mousePressed.containsKey(e.getButton()))
-            mousePressed.remove(e.getButton());
+        if(_mousePressed.containsKey(e.getButton()))
+            _mousePressed.remove(e.getButton());
 
-        mousePressed.put(e.getButton(), new Tuple<>(true, e));
+        _mousePressed.put(e.getButton(), new Tuple<>(true, e));
     }
 
     public static void SetMouseReleased(MouseEvent e)
     {
-        if(mousePressed.containsKey(e.getButton()))
-            mousePressed.remove(e.getButton());
+        if(_mousePressed.containsKey(e.getButton()))
+            _mousePressed.remove(e.getButton());
 
-        mousePressed.put(e.getButton(), new Tuple<>(false, e));
+        _mousePressed.put(e.getButton(), new Tuple<>(false, e));
+    }
+
+    public static void SetMousePosition(MouseEvent e)
+    {
+        _mousePosition = e;
+    }
+
+    public static MouseEvent GetMousePosition()
+    {
+        return _mousePosition;
     }
 
     //Private Methods
