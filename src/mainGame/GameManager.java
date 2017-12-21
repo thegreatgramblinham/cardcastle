@@ -73,7 +73,7 @@ public class GameManager
                     public void handle(ActionEvent ae)
                     {
                         //Clear the viewPort to draw a new frame.
-                        gc.clearRect(0, 0, _viewPort.GetWidth(), _viewPort.GetHeight());
+                        //gc.clearRect(0, 0, _viewPort.GetWidth(), _viewPort.GetHeight());
                     }
                 });
     }
@@ -128,6 +128,16 @@ public class GameManager
                     public void handle(MouseEvent e)
                     {
                         GameConstants.SetMouseReleased(e);
+                    }
+                });
+
+        _primaryCanvas.setOnMouseMoved(
+                new EventHandler<MouseEvent>()
+                {
+                    @Override
+                    public void handle(MouseEvent e)
+                    {
+                        GameConstants.SetMousePosition(e);
                     }
                 });
     }
