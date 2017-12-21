@@ -18,4 +18,6 @@ public abstract class RenderedGameObject
     {
         return _sprite;
     }
+
+    public void OnMouseDown() { }
 }

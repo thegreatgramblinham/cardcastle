@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -23,6 +24,7 @@ public class GameManager
 
     //Private Variables - UI
     private Stage _primaryStage;
+    private Canvas _primaryCanvas;
     private GraphicsContext _gc;
     private Timeline _gameLoop;
     private ViewPort _viewPort;
@@ -34,11 +36,12 @@ public class GameManager
     {
         _primaryStage = displayStage;
         _engineInstance = new GameEngine();
-        _isFullscreen = true;
+        _isFullscreen = false;
 
         InitRenderLoop();
         InitStage();
         InitKeyHandlers();
+        InitMouseHandlers();
     }
 
     //Get Methods
@@ -99,10 +102,33 @@ public class GameManager
                 GameConstants.DEFAULT_SECTOR_HEIGHT
         );
 
-        Canvas canvas = new Canvas( ViewPort.X_RES, ViewPort.Y_RES );
-        root.getChildren().add( canvas );
-        _gc = canvas.getGraphicsContext2D();
+        _primaryCanvas = new Canvas( ViewPort.X_RES, ViewPort.Y_RES );
+        root.getChildren().add( _primaryCanvas );
+        _gc = _primaryCanvas.getGraphicsContext2D();
 
+    }
+
+    private void InitMouseHandlers()
+    {
+        _primaryCanvas.setOnMousePressed(
+                new EventHandler<MouseEvent>()
+                {
+                    @Override
+                    public void handle(MouseEvent e)
+                    {
+                        GameConstants.SetMousePressed(e.getButton());
+                    }
+                });
+
+        _primaryCanvas.setOnMouseReleased(
+                new EventHandler<MouseEvent>()
+                {
+                    @Override
+                    public void handle(MouseEvent e)
+                    {
+                        GameConstants.SetMouseReleased(e.getButton());
+                    }
+                });
     }
 
     private void InitKeyHandlers()
