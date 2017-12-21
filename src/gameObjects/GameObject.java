@@ -7,9 +7,9 @@ import java.awt.*;
 
 public abstract class GameObject extends GameWorldObject
 {
-    public GameObject(Rectangle size, Rectangle hitBox, boolean isImmobile, float mass)
+    public GameObject(Rectangle size)
     {
-        super(size, hitBox, isImmobile, mass);
+        super(size, size, true, 1.0f);
     }
 
     public Point GetGameDrawPoint()

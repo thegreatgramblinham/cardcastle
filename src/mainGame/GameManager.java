@@ -16,6 +16,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.text.View;
+
 public class GameManager
 {
     //Private Static Fields
@@ -28,6 +30,7 @@ public class GameManager
     private GraphicsContext _gc;
     private Timeline _gameLoop;
     private ViewPort _viewPort;
+    private MouseEventManager _mouseManager;
 
     private boolean _isFullscreen;
 
@@ -111,6 +114,11 @@ public class GameManager
 
     private void InitMouseHandlers()
     {
+        _mouseManager = new MouseEventManager(
+                GameConstants.DEFAULT_SECTOR_WIDTH,
+                GameConstants.DEFAULT_SECTOR_HEIGHT,
+                GameConstants.DEFAULT_SECTOR_GRID_UNIT_SIZE);
+
         _primaryCanvas.setOnMousePressed(
                 new EventHandler<MouseEvent>()
                 {
@@ -118,6 +126,7 @@ public class GameManager
                     public void handle(MouseEvent e)
                     {
                         GameConstants.SetMousePressed(e);
+                        _mouseManager.OnMousePressed(e);
                     }
                 });
 
@@ -128,6 +137,7 @@ public class GameManager
                     public void handle(MouseEvent e)
                     {
                         GameConstants.SetMouseReleased(e);
+                        _mouseManager.OnMouseReleased(e);
                     }
                 });
 
@@ -138,6 +148,7 @@ public class GameManager
                     public void handle(MouseEvent e)
                     {
                         GameConstants.SetMousePosition(e);
+                        _mouseManager.OnMouseMove(e);
                     }
                 });
     }
