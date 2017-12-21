@@ -1,6 +1,9 @@
 package mainGame;
 
+import Global.Tuple;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class GameConstants
 
     //Private Static Fields
     private static HashMap<KeyCode, Boolean> keyPressed = new HashMap<>();
+    private static HashMap<MouseButton, Tuple<Boolean, MouseEvent>> mousePressed = new HashMap<>();
 
     //Private Constructor
     private GameConstants(){}
@@ -62,6 +66,29 @@ public class GameConstants
         keyPressed.put(key, false);
     }
 
-    //Private Methods
+    public static Tuple<Boolean, MouseEvent> IsMousePressed(MouseButton button)
+    {
+        if(mousePressed.containsKey(button))
+            return mousePressed.get(button);
 
+        return new Tuple<>(false, null);
+    }
+
+    public static void SetMousePressed(MouseButton button, MouseEvent e)
+    {
+        if(mousePressed.containsKey(button))
+            mousePressed.remove(button);
+
+        mousePressed.put(button, new Tuple<>(true, e));
+    }
+
+    public static void SetMouseReleased(MouseButton button, MouseEvent e)
+    {
+        if(mousePressed.containsKey(button))
+            mousePressed.remove(button);
+
+        mousePressed.put(button, new Tuple<>(false, e));
+    }
+
+    //Private Methods
 }
