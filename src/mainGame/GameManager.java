@@ -27,11 +27,14 @@ public class GameManager
     private Timeline _gameLoop;
     private ViewPort _viewPort;
 
+    private boolean _isFullscreen;
+
     //Constructor
     public GameManager(Stage displayStage) throws Exception
     {
         _primaryStage = displayStage;
         _engineInstance = new GameEngine();
+        _isFullscreen = true;
 
         InitRenderLoop();
         InitStage();
@@ -76,14 +79,14 @@ public class GameManager
         Group root = new Group();
         Scene scene = new Scene( root );
 
-//        if(_isFullscreen)
-//        {
-//            _primaryStage.setFullScreen(true);
-//            Scale scale = new Scale(1.8, 1.8);
-//            scale.setPivotX(0);
-//            scale.setPivotY(0);
-//            scene.getRoot().getTransforms().setAll(scale);
-//        }
+        if(_isFullscreen)
+        {
+            _primaryStage.setFullScreen(true);
+            Scale scale = new Scale(1.8, 1.8);
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            scene.getRoot().getTransforms().setAll(scale);
+        }
 
         _primaryStage.setScene( scene );
 
