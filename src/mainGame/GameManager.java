@@ -206,6 +206,17 @@ public class GameManager
                         _mouseManager.OnMouseMove(e);
                     }
                 });
+
+        _primaryCanvas.setOnMouseDragged(
+                new EventHandler<MouseEvent>()
+                {
+                    @Override
+                    public void handle(MouseEvent e)
+                    {
+                        GameConstants.SetMousePosition(e);
+                        _mouseManager.OnMouseDragged(e);
+                    }
+                });
     }
 
     private void InitKeyHandlers()
