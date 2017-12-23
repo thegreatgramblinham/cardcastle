@@ -89,6 +89,7 @@ public class GameManager
 
                         _engineInstance.CycleEngine();
                         _engineInstance.CycleCollision();
+                        _engineInstance.GetActiveSector().UpdateObjectLocations();
 
                         for (int i = 0;
                              i < _engineInstance.GetActiveSector().GetRenderGroupCount();
@@ -137,7 +138,7 @@ public class GameManager
                 GameConstants.GAME_STARTING_POINT.x,
                 GameConstants.GAME_STARTING_POINT.y));
 
-        _mouseManager.AddTrackedObject(testCard);
+        _mouseManager = new MouseEventManager(_engineInstance.GetActiveSector());
     }
 
     private void InitStage()
@@ -173,11 +174,6 @@ public class GameManager
 
     private void InitMouseHandlers()
     {
-        _mouseManager = new MouseEventManager(
-                GameConstants.DEFAULT_SECTOR_WIDTH,
-                GameConstants.DEFAULT_SECTOR_HEIGHT,
-                GameConstants.DEFAULT_SECTOR_GRID_UNIT_SIZE);
-
         _primaryCanvas.setOnMousePressed(
                 new EventHandler<MouseEvent>()
                 {

@@ -1,52 +1,43 @@
 package mainGame;
 
 import Interfaces.IGameWorldObject;
+import SectorBase.Sector;
 import SectorBase.SectorMap;
 import gameObjects.RenderedGameObject;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.*;
 import java.util.Iterator;
 
 public class MouseEventManager
 {
     //Variables
-    private SectorMap _map;
-
-    private int _width;
-    private int _height;
-    private int _gridUnitSize;
+    private Sector _map;
 
     //Constructor
-    public MouseEventManager(int width, int height, int gridUnitSize)
+    public MouseEventManager(Sector sector)
     {
-        _width = width;
-        _height = height;
-        _gridUnitSize = gridUnitSize;
-        _map = new SectorMap(width, height, gridUnitSize);
+        _map = sector;
     }
 
     //Public Methods
-    public void AddTrackedObject(RenderedGameObject obj)
-    {
-        _map.InsertObject(obj);
-    }
+//    public void AddTrackedObject(RenderedGameObject obj)
+//    {
+//        _map.AddObject(ob);
+//    }
+//
+//    public void RemoveTrackedObject(RenderedGameObject obj)
+//    {
+//        _map.RemoveObject(obj);
+//    }
 
-    public void RemoveTrackedObject(RenderedGameObject obj)
-    {
-        _map.RemoveObject(obj);
-    }
-
-    public void ClearTrackedObjects()
-    {
-        _map = new SectorMap(_width, _height, _gridUnitSize);
-    }
 
     public void OnMousePressed(MouseEvent e)
     {
         Iterator<IGameWorldObject> iter
-                = _map.GetObjectsAtSubSector(
+                = _map.GetObjectsAtPoint(new Point(
                         ViewPort.SecLocX((int)e.getX()),
-                        ViewPort.SecLocY((int)e.getY()));
+                        ViewPort.SecLocY((int)e.getY())));
 
         if(iter == null) return;
 
@@ -64,9 +55,9 @@ public class MouseEventManager
     public void OnMouseReleased(MouseEvent e)
     {
         Iterator<IGameWorldObject> iter
-                = _map.GetObjectsAtSubSector(
-                        ViewPort.SecLocX((int)e.getX()),
-                        ViewPort.SecLocY((int)e.getY()));
+                = _map.GetObjectsAtPoint(new Point(
+                ViewPort.SecLocX((int)e.getX()),
+                ViewPort.SecLocY((int)e.getY())));
 
         if(iter == null) return;
 
@@ -83,10 +74,12 @@ public class MouseEventManager
 
     public void OnMouseMove(MouseEvent e)
     {
+
+        int x = ViewPort.SecLocX((int)e.getX());
+        int y = ViewPort.SecLocY((int)e.getY());
+
         Iterator<IGameWorldObject> iter
-                = _map.GetObjectsAtSubSector(
-                        ViewPort.SecLocX((int)e.getX()),
-                        ViewPort.SecLocY((int)e.getY()));
+                = _map.GetObjectsAtPoint(new Point(x,y));
 
         if(iter == null) return;
 
@@ -94,9 +87,7 @@ public class MouseEventManager
         {
             RenderedGameObject obj = (RenderedGameObject)iter.next();
 
-            if(obj.contains(
-                    ViewPort.SecLocX((int)e.getX()),
-                    ViewPort.SecLocY((int)e.getY())))
+            if(obj.contains(x,y))
                 obj.OnMouseOver(e);
         }
     }
