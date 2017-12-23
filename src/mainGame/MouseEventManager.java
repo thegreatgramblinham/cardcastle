@@ -48,11 +48,15 @@ public class MouseEventManager
                         ViewPort.SecLocX((int)e.getX()),
                         ViewPort.SecLocY((int)e.getY()));
 
+        if(iter == null) return;
+
         while(iter.hasNext())
         {
             RenderedGameObject obj = (RenderedGameObject)iter.next();
 
-            if(obj.contains(e.getX(), e.getY()))
+            if(obj.contains(
+                    ViewPort.SecLocX((int)e.getX()),
+                    ViewPort.SecLocY((int)e.getY())))
                 obj.OnMousePressed(e);
         }
     }
@@ -64,11 +68,15 @@ public class MouseEventManager
                         ViewPort.SecLocX((int)e.getX()),
                         ViewPort.SecLocY((int)e.getY()));
 
+        if(iter == null) return;
+
         while(iter.hasNext())
         {
             RenderedGameObject obj = (RenderedGameObject)iter.next();
 
-            if(obj.contains(e.getX(), e.getY()))
+            if(obj.contains(
+                    ViewPort.SecLocX((int)e.getX()),
+                    ViewPort.SecLocY((int)e.getY())))
                 obj.OnMouseReleased(e);
         }
     }
@@ -80,11 +88,15 @@ public class MouseEventManager
                         ViewPort.SecLocX((int)e.getX()),
                         ViewPort.SecLocY((int)e.getY()));
 
+        if(iter == null) return;
+
         while(iter.hasNext())
         {
             RenderedGameObject obj = (RenderedGameObject)iter.next();
 
-            if(obj.contains(e.getX(), e.getY()))
+            if(obj.contains(
+                    ViewPort.SecLocX((int)e.getX()),
+                    ViewPort.SecLocY((int)e.getY())))
                 obj.OnMouseOver(e);
         }
     }

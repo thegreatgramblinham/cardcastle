@@ -1,19 +1,17 @@
 package card;
 
-import gameObjects.RenderedGameObject;
 import javafx.scene.image.Image;
 
 import java.awt.*;
 
-public abstract class CardBase extends RenderedGameObject
+public abstract class CreatureCardBase extends CardBase
 {
     //Variables
 
     //Constructor
-    protected CardBase(Rectangle bounds, Image sprite)
+    protected CreatureCardBase(Rectangle bounds, Image sprite)
     {
         super(bounds, sprite);
-        this.SetCanCollide(false);
     }
 
     //Get Methods
