@@ -1,6 +1,7 @@
 package gameObjects;
 
 import GameObjectBase.GameWorldObject;
+import PhysicsBase.Vectors.VelocityVector;
 import mainGame.ViewPort;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ public abstract class GameObject extends GameWorldObject
     public GameObject(Rectangle size)
     {
         super(size, size, false, 1.0f);
+        this.SetVelocity(new VelocityVector(0.0, 0.0));
     }
 
     public Point GetGameDrawPoint()

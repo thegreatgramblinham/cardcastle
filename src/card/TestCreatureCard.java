@@ -27,6 +27,10 @@ public class TestCreatureCard extends CreatureCardBase
     public void OnMouseOver(MouseEvent e)
     {
         super.OnMouseOver(e);
+
+        Point currLoc = this.NGetLocation();
+        currLoc.x += 1;
+        this.NSetLocation(currLoc);
     }
 
     //Private Methods
