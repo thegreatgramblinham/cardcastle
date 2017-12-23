@@ -28,4 +28,6 @@ public abstract class RenderedGameObject extends GameObject
     public void OnMouseReleased(MouseEvent e) { }
 
     public void OnMouseOver(MouseEvent e) { }
+
+    public void OnMouseDragged(MouseEvent e) { }
 }
