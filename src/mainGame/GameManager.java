@@ -1,6 +1,12 @@
 package mainGame;
 
 import Engine.GameEngine;
+import Interfaces.IGameWorldObject;
+import SectorBase.enums.GravityApplication;
+import card.TestCreatureCard;
+import gameObjects.GameObject;
+import gameObjects.RenderedGameObject;
+import helpers.DebugHelper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -17,6 +23,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.text.View;
+import java.awt.*;
+import java.util.HashSet;
 
 public class GameManager
 {
@@ -41,10 +49,11 @@ public class GameManager
         _engineInstance = new GameEngine();
         _isFullscreen = false;
 
-        InitRenderLoop();
         InitStage();
         InitKeyHandlers();
         InitMouseHandlers();
+        InitStartingView();
+        InitRenderLoop();
     }
 
     //Get Methods
@@ -76,9 +85,59 @@ public class GameManager
                     public void handle(ActionEvent ae)
                     {
                         //Clear the viewPort to draw a new frame.
-                        //gc.clearRect(0, 0, _viewPort.GetWidth(), _viewPort.GetHeight());
+                        gc.clearRect(0, 0, _viewPort.GetWidth(), _viewPort.GetHeight());
+
+                        _engineInstance.CycleEngine();
+                        _engineInstance.CycleCollision();
+
+                        for (int i = 0;
+                             i < _engineInstance.GetActiveSector().GetRenderGroupCount();
+                             i++)
+                        {
+                            HashSet<IGameWorldObject> renderGroup
+                                    = _engineInstance.GetActiveSector().GetRenderGroup(i);
+
+                            if (renderGroup == null) continue;
+
+                            for( IGameWorldObject gameEngObj : renderGroup)
+                            {
+                                GameObject gObj = (GameObject)gameEngObj;
+
+                                if(gObj == null) continue;
+
+                                if(_showPropertyDebugMode)
+                                    ShowDebugInfo(gObj, gc);
+
+                                RenderedGameObject rGObj = (RenderedGameObject)gameEngObj;
+
+                                if(rGObj == null) continue;
+
+                                gc.drawImage(rGObj.GetSprite(),
+                                        rGObj.GetGameDrawPoint().x,
+                                        rGObj.GetGameDrawPoint().y,
+                                        rGObj.GetSprite().getWidth(),
+                                        rGObj.GetSprite().getHeight());
+                            }
+                        }
                     }
                 });
+    }
+
+    private void InitStartingView()
+    {
+        TestCreatureCard testCard = new TestCreatureCard();
+        _engineInstance.CreateSector(GameConstants.DEFAULT_SECTOR_WIDTH,
+                GameConstants.DEFAULT_SECTOR_HEIGHT,
+                GameConstants.DEFAULT_SECTOR_GRID_UNIT_SIZE,
+                GameConstants.GRAVITY,
+                GravityApplication.Area);
+
+        _engineInstance.GetActiveSector().AddObject(testCard, 1, "Default");
+        testCard.NSetLocation(new Point(
+                GameConstants.GAME_STARTING_POINT.x,
+                GameConstants.GAME_STARTING_POINT.y));
+
+        _mouseManager.AddTrackedObject(testCard);
     }
 
     private void InitStage()
@@ -182,5 +241,22 @@ public class GameManager
                         GameConstants.SetKeyReleased(event.getCode());
                     }
                 });
+    }
+
+    private void ShowDebugInfo(GameObject gObj, GraphicsContext gc)
+    {
+        gc.strokeRect(gObj.GetGameHitBoxDrawPoint().x,
+                gObj.GetGameHitBoxDrawPoint().y,
+                gObj.GetHitBox().width,
+                gObj.GetHitBox().height);
+
+        if(!gObj.GetIsImmobile())
+        {
+            gc.setFill(javafx.scene.paint.Color.CHARTREUSE);
+            gc.fillText(
+                    DebugHelper.BuildFormattedPropertyString(gObj),
+                    ViewPort.DrawLocX(gObj.GetRight()),
+                    ViewPort.DrawLocY(gObj.GetBottom()));
+        }
     }
 }

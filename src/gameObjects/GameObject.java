@@ -9,7 +9,7 @@ public abstract class GameObject extends GameWorldObject
 {
     public GameObject(Rectangle size)
     {
-        super(size, size, true, 1.0f);
+        super(size, size, false, 1.0f);
     }
 
     public Point GetGameDrawPoint()
